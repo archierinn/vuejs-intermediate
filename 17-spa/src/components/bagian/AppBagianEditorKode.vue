@@ -6,11 +6,17 @@
       label="Input Kode"
       @input="$emit('update:inputKode', $event)"
     />
-    <app-kode
-      :kode="hasilHighlight"
-      :bahasa-pemrograman="bahasaPemrogramanTerpilih"
-      class="tampilan-kode--kustom"
-    />
+    <div
+      class="flex-1"
+      style="margin-top: 24px"
+    >
+      <app-kode
+        :kode="hasilHighlight"
+        :bahasa-pemrograman="bahasaPemrogramanTerpilih"
+        class="tampilan-kode--kustom"
+        style="margin-top:0px"
+      />
+    </div>
   </section>
 </template>
 

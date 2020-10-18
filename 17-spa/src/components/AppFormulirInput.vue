@@ -1,14 +1,20 @@
 <template>
-  <div :class="`opsi-formulir-${nama}`" class="opsi-formulir flex flex-align-center">
-    <label :for="nama">{{ label }}:</label>
+  <div
+    :class="`opsi-formulir-${nama}`"
+    class="opsi-formulir flex flex-column"
+  >
+    <label
+      class="label"
+      :for="nama"
+    >{{ label }}</label>
     <input
       :value="value"
       :type="tipe"
       :id="nama"
-      class="margin-left"
+      class="form-control"
       @input="ketikaNilaiBerubah"
     >
-    <slot name="aksi"/>
+    <slot name="aksi" />
   </div>
 </template>
 
@@ -25,7 +31,7 @@ export default {
     }
   },
   methods: {
-    ketikaNilaiBerubah(event) {
+    ketikaNilaiBerubah (event) {
       if (this.tipe === 'number') {
         this.$emit('input', parseInt(event.target.value))
       } else {

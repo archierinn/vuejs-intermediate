@@ -2,6 +2,7 @@
   <div :class="`tombol-${nama}`">
     <button
       :disabled="nonaktif"
+      :class="`btn ${kelas}`"
       @click="ketikaTombolDiKlik"
     >
       {{ label }}
@@ -26,10 +27,14 @@ export default {
     nonaktif: {
       type: Boolean,
       default: false
+    },
+    kelas: {
+      type: String,
+      default: ''
     }
   },
   methods: {
-    ketikaTombolDiKlik(event) {
+    ketikaTombolDiKlik (event) {
       this.$emit('klik', event)
     }
   }

@@ -1,23 +1,34 @@
 <template>
-  <div class="tampilan-kode">
+  <div
+    class="tampilan-kode flex flex-column"
+    style="height:90%;max-width:100%"
+  >
     <data-code
       :code="kode"
       :lang="bahasaPemrograman"
       :is-highlighted="apakahHighlightMenyala"
+      style="text-align: left; max-height: 250px; overflow-y: auto"
     />
-    <button
+    <app-tombol
       v-if="idKode"
-      @click="ketikaTombolHapusDiKlik"
+      nama="hapus"
+      label="Hapus"
+      kelas="btn-error"
+      @klik="ketikaTombolHapusDiKlik"
+      style="margin-top:auto"
     >
-      Hapus
-    </button>
+    </app-tombol>
   </div>
 </template>
 
 <script>
 import { validator } from '../utils'
+import AppTombol from './AppTombol'
 
 export default {
+  components: {
+    AppTombol
+  },
   name: 'AppKode',
   props: {
     idKode: {
@@ -40,7 +51,7 @@ export default {
     }
   },
   methods: {
-    async ketikaTombolHapusDiKlik() {
+    async ketikaTombolHapusDiKlik () {
       const hasilKonfirmasi = confirm('Apakah kamu yakin?')
       if (hasilKonfirmasi && this.idKode) {
         await this.$store.dispatch('kode/hapusKode', {

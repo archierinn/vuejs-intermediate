@@ -1,40 +1,89 @@
 <template>
-  <main>
+  <main class="app">
+    <div v-if="$store.state.pengguna.idPengguna">
+      <div class="sidebar flex flex-column">
+        <b style="padding: 16px">{{ $store.state.pengguna.namaPengguna }}</b>
+        <a
+          href="#"
+          @click="menu = 'editor'"
+        >Tambah Kode</a>
+        <a
+          href="#"
+          @click="menu = 'daftar'"
+        >Daftar Kode</a>
+        <a
+          href="/"
+          style="margin-top:auto"
+          @click="ketikaTautanKeluarDiKlik"
+        >Keluar</a>
+      </div>
+      <div class="konten">
+        <div v-if="menu === 'editor'">
+          <app-bagian-editor-opsi
+            :input-kode="dataKode.inputKode"
+            :bahasa-pemrograman-terpilih.sync="dataKode.bahasaPemrogramanTerpilih"
+            :twoslash-terpilih.sync="dataKode.twoslashTerpilih"
+            :nama-berkas.sync="dataKode.namaBerkas"
+            :highlight.sync="dataKode.highlight"
+            :hasil-highlight="hasilHighlight"
+            @tersimpan="dapatkanDaftarKode"
+            style="padding-bottom: 0px; padding-top:8px"
+          />
+          <app-bagian-editor-kode
+            :input-kode.sync="dataKode.inputKode"
+            :hasil-highlight="hasilHighlight"
+            :bahasa-pemrograman-terpilih="dataKode.bahasaPemrogramanTerpilih"
+            style="padding-top: 0; padding-bottom:0px"
+          />
+          <section
+            class="opsi-aksi-editor flex"
+            style="padding-top:0"
+          >
+            <app-tombol
+              nama="reset"
+              label="Reset"
+              kelas="btn-warning"
+              @klik="ketikaTombolResetDiKlik"
+            />
+            <app-tombol
+              v-if="hasilHighlight && hasilHighlight.length > 0"
+              nama="unduh"
+              label="Unduh"
+              class="margin-left"
+              kelas="btn-info"
+              @klik="ketikaTombolUnduhDiKlik"
+            />
+            <app-tombol
+              v-if="$store.state.pengguna.idPengguna"
+              nama="simpan"
+              label="Simpan"
+              class="margin-left"
+              kelas="btn-success"
+              @klik="ketikaTombolSimpanDiKlik"
+            />
+          </section>
+        </div>
+        <div v-else-if="menu === 'daftar'">
+          <app-bagian-opsi-daftar-kode
+            :halaman.sync="filter.halaman"
+            :banyak-data.sync="filter.banyakData"
+            :urutkan-berdasarkan.sync="filter.urutkanBerdasarkan"
+            :urutkan.sync="filter.urutkan"
+            :apakah-highlight-menyala.sync="filter.apakahHighlightMenyala"
+            style="padding-bottom: 0px; padding-top:8px"
+          />
+          <app-bagian-daftar-kode
+            :apakah-highlight-menyala="filter.apakahHighlightMenyala"
+            :dapatkan-daftar-kode="dapatkanDaftarKode"
+            style="padding-bottom: 0px; padding-top:0px"
+          />
+        </div>
+      </div>
+    </div>
     <app-bagian-pengguna
+      v-else
       @keluar="ketikaTombolResetDiKlik"
     />
-    <hr>
-    <app-bagian-editor-opsi
-      :input-kode="dataKode.inputKode"
-      :bahasa-pemrograman-terpilih.sync="dataKode.bahasaPemrogramanTerpilih"
-      :twoslash-terpilih.sync="dataKode.twoslashTerpilih"
-      :nama-berkas.sync="dataKode.namaBerkas"
-      :highlight.sync="dataKode.highlight"
-      :hasil-highlight="hasilHighlight"
-      @tersimpan="dapatkanDaftarKode"
-      @reset="ketikaTombolResetDiKlik"
-    />
-    <hr>
-    <app-bagian-editor-kode
-      :input-kode.sync="dataKode.inputKode"
-      :hasil-highlight="hasilHighlight"
-      :bahasa-pemrograman-terpilih="dataKode.bahasaPemrogramanTerpilih"
-    />
-    <hr>
-    <div v-if="$store.state.pengguna.idPengguna">
-      <app-bagian-opsi-daftar-kode
-        :halaman.sync="filter.halaman"
-        :banyak-data.sync="filter.banyakData"
-        :urutkan-berdasarkan.sync="filter.urutkanBerdasarkan"
-        :urutkan.sync="filter.urutkan"
-        :apakah-highlight-menyala.sync="filter.apakahHighlightMenyala"
-      />
-      <hr>
-      <app-bagian-daftar-kode
-        :apakah-highlight-menyala="filter.apakahHighlightMenyala"
-        :dapatkan-daftar-kode="dapatkanDaftarKode"
-      />
-    </div>
     <app-notifikasi />
     <app-proses />
   </main>
@@ -69,7 +118,7 @@ export default {
     AppNotifikasi,
     AppProses
   },
-  data() {
+  data () {
     return {
       dataKode: {
         inputKode: null,
@@ -86,35 +135,43 @@ export default {
         apakahHighlightMenyala: 1
       },
       hasilHighlight: '',
-      daftarBahasaPemrograman: []
+      daftarBahasaPemrograman: [],
+      menu: "editor"
     }
   },
   watch: {
-    '$store.state.pengguna.idPengguna'(idPengguna) {
+    '$store.state.pengguna.idPengguna' (idPengguna) {
       if (idPengguna) {
         this.dapatkanDaftarKode()
+        this.dapatkanDaftarBahasaPemrograman()
       }
     },
     dataKode: {
-      handler: debounce(function(dataKode) {
+      handler: debounce(function (dataKode) {
         this.hasilHighlight = ''
         this.highlighter(dataKode.inputKode)
       }, { wait: 500 }),
       deep: true
     },
     filter: {
-      handler: debounce(function() {
+      handler: debounce(function () {
         this.dapatkanDaftarKode()
       }, { wait: 500 }),
       deep: true
     }
   },
-  async created() {
+  /* async created () {
     await this.dapatkanDaftarBahasaPemrograman()
     await this.dapatkanDaftarKode()
+  }, */
+  mounted () {
+    if (this.$store.state.pengguna.idPengguna) {
+      this.dapatkanDaftarBahasaPemrograman()
+      this.dapatkanDaftarKode()
+    }
   },
   methods: {
-    ketikaTombolResetDiKlik() {
+    ketikaTombolResetDiKlik () {
       this.dataKode = {
         inputKode: null,
         bahasaPemrogramanTerpilih: 'typescript',
@@ -123,7 +180,7 @@ export default {
         twoslashTerpilih: null,
       }
     },
-    async dapatkanDaftarKode() {
+    async dapatkanDaftarKode () {
       await this.$store.dispatch('kode/dapatkanSemuaKode', {
         idPengguna: this.$store.state.pengguna.idPengguna,
         filter: {
@@ -135,7 +192,7 @@ export default {
         }
       })
     },
-    async ketikaTombolUnduhDiKlik() {
+    async ketikaTombolUnduhDiKlik () {
       try {
         this.$store.dispatch('proses/tampilkanProses', null)
         const objekUrl = {
@@ -155,7 +212,8 @@ export default {
       } catch (error) {
         const dataNotifikasiGalat = {
           apakahTampil: true,
-          pesan: error.message || 'Gagal mengunduh'
+          pesan: error.message || 'Gagal mengunduh',
+          tipe: 'error'
         }
         this.$store.dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat)
         console.log(error)
@@ -163,7 +221,7 @@ export default {
         this.$store.dispatch('proses/hilangkanProses', null)
       }
     },
-    async ketikaTombolSimpanDiKlik() {
+    async ketikaTombolSimpanDiKlik () {
       try {
         const konten = cleanDeep({
           kode: this.dataKode.inputKode,
@@ -180,13 +238,14 @@ export default {
       } catch (error) {
         const dataNotifikasiGalat = {
           apakahTampil: true,
-          pesan: error.message || 'Gagal menyimpan'
+          pesan: error.message || 'Gagal menyimpan',
+          tipe: 'error'
         }
         this.$store.dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat)
         console.log(error)
       }
     },
-    async dapatkanDaftarBahasaPemrograman() {
+    async dapatkanDaftarBahasaPemrograman () {
       try {
         const respon = await dapatkanOpsi()
         if (respon.success && !respon.error) {
@@ -195,13 +254,14 @@ export default {
       } catch (error) {
         const dataNotifikasiGalat = {
           apakahTampil: true,
-          pesan: error.message
+          pesan: error.message,
+          tipe: 'error'
         }
         this.$store.dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat)
         console.log(error)
       }
     },
-    async highlighter(inputKode, download) {
+    async highlighter (inputKode, download) {
       try {
         this.$store.dispatch('proses/tampilkanProses', null)
         const objekUrl = {
@@ -228,14 +288,19 @@ export default {
       } catch (error) {
         const dataNotifikasiGalat = {
           apakahTampil: true,
-          pesan: error.message || 'Bahasa Pemrograman dan Kode wajib diisi'
+          pesan: error.message || 'Bahasa Pemrograman dan Kode wajib diisi',
+          tipe: 'error'
         }
         this.$store.dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat)
         console.log(error)
       } finally {
         this.$store.dispatch('proses/hilangkanProses', null)
       }
-    }
+    },
+    ketikaTautanKeluarDiKlik () {
+      this.$store.dispatch('pengguna/keluar')
+      this.$emit('keluar')
+    },
   }
 }
 </script>

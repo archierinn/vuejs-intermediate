@@ -1,26 +1,30 @@
 function state() {
   return {
     apakahTampil: false,
-    pesan: null
+    pesan: null,
+    tipe: 'success'
   }
 }
 
 const mutations = {
-  aturNotifikasi(state, { apakahTampil, pesan }) {
+  aturNotifikasi(state, { apakahTampil, pesan, tipe }) {
     state.apakahTampil = apakahTampil
     state.pesan = pesan
+    state.tipe = tipe
   },
   hapusNotifikasi(state) {
     state.apakahTampil = false
     state.pesan = null
+    state.tipe = 'success'
   }
 }
 
 const actions = {
-  tampilkanNotifikasi({ commit }, { apakahTampil, pesan }) {
+  tampilkanNotifikasi({ commit }, { apakahTampil, pesan, tipe }) {
     commit('aturNotifikasi', {
       apakahTampil,
-      pesan
+      pesan,
+      tipe
     })
     setTimeout(() => {
       commit('hapusNotifikasi')

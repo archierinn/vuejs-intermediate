@@ -31,10 +31,11 @@
       class="margin-bottom"
       @input="$emit('update:highlight', $event)"
     />
-    <div class="opsi-aksi-editor flex">
+    <!-- <div class="opsi-aksi-editor flex">
       <app-tombol
         nama="reset"
         label="Reset"
+        kelas="btn-warning"
         @klik="$emit('reset')"
       />
       <app-tombol
@@ -42,6 +43,7 @@
         nama="unduh"
         label="Unduh"
         class="margin-left"
+        kelas="btn-info"
         @klik="ketikaTombolUnduhDiKlik"
       />
       <app-tombol
@@ -49,9 +51,10 @@
         nama="simpan"
         label="Simpan"
         class="margin-left"
+        kelas="btn-success"
         @klik="ketikaTombolSimpanDiKlik"
       />
-    </div>
+    </div> -->
   </section>
 </template>
 
@@ -66,13 +69,13 @@ import {
 } from '../../utils'
 import { URL_API, OPSI_STRINGIFY } from '../../constants'
 
-import AppTombol from '../AppTombol'
+//import AppTombol from '../AppTombol'
 import AppFormulirInput from '../AppFormulirInput'
 import AppFormulirPilihan from '../AppFormulirPilihan'
 
 export default {
   components: {
-    AppTombol,
+    //AppTombol,
     AppFormulirInput,
     AppFormulirPilihan
   },
@@ -102,17 +105,17 @@ export default {
       validator
     }
   },
-  data() {
+  data () {
     return {
       daftarBahasaPemrograman: [],
       daftarTwoslash: ['twoslash', 'tsconfig']
     }
   },
-  created() {
+  created () {
     this.dapatkanDaftarBahasaPemrograman()
   },
   methods: {
-    async dapatkanDaftarBahasaPemrograman() {
+    async dapatkanDaftarBahasaPemrograman () {
       try {
         const respon = await dapatkanOpsi()
         if (respon.success && !respon.error) {
@@ -127,7 +130,7 @@ export default {
         console.log(error)
       }
     },
-    async ketikaTombolUnduhDiKlik() {
+    async ketikaTombolUnduhDiKlik () {
       try {
         this.$store.dispatch('proses/tampilkanProses', null)
         const objekUrl = {
@@ -155,7 +158,7 @@ export default {
         this.$store.dispatch('proses/hilangkanProses', null)
       }
     },
-    async ketikaTombolSimpanDiKlik() {
+    async ketikaTombolSimpanDiKlik () {
       try {
         const konten = cleanDeep({
           kode: this.inputKode,

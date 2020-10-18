@@ -1,13 +1,18 @@
 <template>
-  <div :class="`opsi-formulir-${nama}`">
-    <label :for="nama">
-      {{ label }}:
+  <div
+    :class="`opsi-formulir-${nama} flex flex-column ma-0`"
+    style="margin-left: 0px !important; margin-top: 0px !important; margin-bottom: 0px !important"
+  >
+    <label
+      class="label"
+      :for="nama"
+    >
+      {{ label }}
     </label>
-    <br/>
     <textarea
       :value="value"
       :id="nama"
-      :class="nama"
+      class="form-control"
       @input="ketikaNilaiBerubah"
     ></textarea>
   </div>
@@ -20,7 +25,7 @@ export default {
   name: 'AppFormulirAreaTeks',
   mixins: [formulir],
   methods: {
-    ketikaNilaiBerubah(event) {
+    ketikaNilaiBerubah (event) {
       this.$emit('input', event.target.value)
     }
   }

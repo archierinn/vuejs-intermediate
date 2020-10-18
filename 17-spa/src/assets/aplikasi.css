@@ -13,8 +13,8 @@ textarea {
 }
 
 button[disabled] {
-  color: rgba(26, 32, 44, .3);
-  border: 1px solid rgba(26, 32, 44, .3);
+  color: rgba(26, 32, 44, 0.3);
+  border: 1px solid rgba(26, 32, 44, 0.3);
   cursor: default;
 }
 
@@ -48,5 +48,5 @@ button[disabled] {
 }
 
 .tampilan-kode--kustom {
-  margin-top: 40px
+  margin-top: 40px;
 }

@@ -1,10 +1,16 @@
 <template>
-  <div :class="`opsi-formulir-${nama}`" class="opsi-formulir flex flex-align-center">
-    <label :for="nama">{{ label }}:</label>
+  <div
+    :class="`opsi-formulir-${nama}`"
+    class="opsi-formulir flex flex-column"
+  >
+    <label
+      class="label"
+      :for="nama"
+    >{{ label }}:</label>
 
     <select
       :id="nama"
-      class="margin-left"
+      class="form-control"
       @change="ketikaNilaiBerubah"
     >
       <option value="">Pilih</option>
@@ -30,7 +36,7 @@ export default {
     daftarPilihan: {
       type: Array,
       required: true,
-      default() {
+      default () {
         return []
       }
     },
@@ -40,7 +46,7 @@ export default {
     }
   },
   computed: {
-    apakahTerpilih() {
+    apakahTerpilih () {
       return (pilihan) => {
         if (this.daftarPilihanBerbentukObjek) {
           return this.value === pilihan.nilai
@@ -48,7 +54,7 @@ export default {
         return this.value === pilihan
       }
     },
-    tampilanPilihan() {
+    tampilanPilihan () {
       return (pilihan) => {
         if (this.daftarPilihanBerbentukObjek) {
           return pilihan.teks
@@ -56,7 +62,7 @@ export default {
         return pilihan
       }
     },
-    nilaiPilihan() {
+    nilaiPilihan () {
       return (pilihan) => {
         if (this.daftarPilihanBerbentukObjek) {
           return pilihan.nilai
@@ -66,7 +72,7 @@ export default {
     }
   },
   methods: {
-    ketikaNilaiBerubah(event) {
+    ketikaNilaiBerubah (event) {
       if (event.target.value && event.target.value.length > 0) {
         this.$emit('input', event.target.value)
       } else {

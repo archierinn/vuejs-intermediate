@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="$store.state.notifikasi.apakahTampil"
-    class="notifikasi"
+    :class="`notifikasi ${$store.state.notifikasi.tipe }`"
   >
     {{ $store.state.notifikasi.pesan }}
   </div>

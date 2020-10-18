@@ -5,6 +5,7 @@ import './assets/normalize.css'
 import './assets/highlighter.css'
 import './assets/tooltip.css'
 import './assets/aplikasi.css'
+import './assets/custom.css'
 
 import App from './App.vue'
 import DataCode from './components/preset/DataCode'

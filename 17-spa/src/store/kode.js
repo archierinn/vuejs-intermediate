@@ -48,7 +48,8 @@ const actions = {
       commit('resetDaftarKode')
       const dataNotifikasiGalat = {
         apakahTampil: true,
-        pesan: error.message || 'Silahkan masuk terlebih dahulu'
+        pesan: error.message || 'Silahkan masuk terlebih dahulu',
+        tipe: 'error'
       }
       dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat, { root: true })
       console.log(error)
@@ -76,7 +77,8 @@ const actions = {
       if (respon.success && !respon.error) {
         const dataNotifikasi = {
           apakahTampil: true,
-          pesan: 'Kode berhasil disimpan'
+          pesan: 'Kode berhasil disimpan',
+          tipe: 'success'
         }
 
         await dispatch(`notifikasi/tampilkanNotifikasi`, dataNotifikasi, { root: true })
@@ -86,7 +88,8 @@ const actions = {
     } catch (error) {
       const dataNotifikasiGalat = {
         apakahTampil: true,
-        pesan: error.message || 'Silahkan masuk terlebih dahulu'
+        pesan: error.message || 'Silahkan masuk terlebih dahulu',
+        tipe: 'error'
       }
       dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat, { root: true })
       console.log(error)
@@ -115,7 +118,8 @@ const actions = {
       if (respon.success && !respon.error) {
         const dataNotifikasi = {
           apakahTampil: true,
-          pesan: 'Kode berhasil diubah'
+          pesan: 'Kode berhasil diubah',
+          tipe: 'success'
         }
 
         await dispatch(`notifikasi/tampilkanNotifikasi`, dataNotifikasi, { root: true })
@@ -125,7 +129,8 @@ const actions = {
     } catch (error) {
       const dataNotifikasiGalat = {
         apakahTampil: true,
-        pesan: error.message || 'Silahkan masuk terlebih dahulu'
+        pesan: error.message || 'Silahkan masuk terlebih dahulu',
+        tipe: 'error'
       }
       dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat, { root: true })
       console.log(error)
@@ -147,7 +152,8 @@ const actions = {
       if (respon.success && !respon.error) {
         const dataNotifikasi = {
           apakahTampil: true,
-          pesan: 'Kode berhasil dihapus'
+          pesan: 'Kode berhasil dihapus',
+          tipe: 'success'
         }
 
         await dispatch(`notifikasi/tampilkanNotifikasi`, dataNotifikasi, { root: true })
@@ -157,7 +163,8 @@ const actions = {
     } catch (error) {
       const dataNotifikasiGalat = {
         apakahTampil: true,
-        pesan: error.message || 'Silahkan masuk terlebih dahulu'
+        pesan: error.message || 'Silahkan masuk terlebih dahulu',
+        tipe: 'error'
       }
       dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat, { root: true })
       console.log(error)

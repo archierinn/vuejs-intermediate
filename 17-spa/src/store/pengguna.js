@@ -3,8 +3,8 @@ import { kirimData } from '../utils'
 
 function state() {
   return {
-    idPengguna: null,
-    namaPengguna: null
+    idPengguna: sessionStorage.getItem('login'),
+    namaPengguna: sessionStorage.getItem('name')
   }
 }
 
@@ -36,16 +36,20 @@ const actions = {
         })
         const dataNotifikasi = {
           apakahTampil: true,
-          pesan: 'Berhasil masuk'
+          pesan: 'Berhasil masuk',
+          tipe: 'success'
         }
         await dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasi, { root: true })
+        sessionStorage.setItem('login', respon.data.id)
+        sessionStorage.setItem('name', respon.data.name)
       } else {
         throw new Error(respon.message)
       }
     } catch (error) {
       const dataNotifikasiGalat = {
         apakahTampil: true,
-        pesan: error.message
+        pesan: error.message,
+        tipe: 'error'
       }
       dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat, { root: true })
       console.log(error)
@@ -69,7 +73,8 @@ const actions = {
         })
         const dataNotifikasi = {
           apakahTampil: true,
-          pesan: 'Berhasil daftar'
+          pesan: 'Berhasil daftar',
+          tipe: 'success'
         }
         await dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasi, { root: true })
       } else {
@@ -78,7 +83,8 @@ const actions = {
     } catch (error) {
       const dataNotifikasiGalat = {
         apakahTampil: true,
-        pesan: error.message
+        pesan: error.message,
+        tipe: 'error'
       }
       dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasiGalat, { root: true })
       console.log(error)
@@ -91,9 +97,11 @@ const actions = {
     commit('kode/resetDaftarKode', null, { root: true })
     const dataNotifikasi = {
       apakahTampil: true,
-      pesan: 'Berhasil keluar'
+      pesan: 'Berhasil keluar',
+      tipe: 'success'
     }
     dispatch('notifikasi/tampilkanNotifikasi', dataNotifikasi, { root: true })
+    sessionStorage.clear()
   }
 }
 

@@ -1,14 +1,20 @@
 <template>
   <section class="daftar-kode flex">
-    <app-kode
-      v-for="itemKode in $store.state.kode.daftarKode"
-      :key="itemKode.id"
-      :id-kode="itemKode.id"
-      :kode="itemKode.code"
-      :bahasa-pemrograman="itemKode.lang"
-      :apakah-highlight-menyala="apakahHighlightMenyala"
-      @terhapus="dapatkanDaftarKode"
-    />
+    <template v-for="itemKode in $store.state.kode.daftarKode">
+      <div
+        :key="itemKode.id"
+        class="card col-3 flex-1"
+        style="margin: 8px"
+      >
+        <app-kode
+          :id-kode="itemKode.id"
+          :kode="itemKode.code"
+          :bahasa-pemrograman="itemKode.lang"
+          :apakah-highlight-menyala="apakahHighlightMenyala"
+          @terhapus="dapatkanDaftarKode"
+        />
+      </div>
+    </template>
   </section>
 </template>
 
@@ -27,8 +33,8 @@ export default {
     },
     dapatkanDaftarKode: {
       type: Function,
-      default() {
-        return () => {}
+      default () {
+        return () => { }
       },
       required: true
     }

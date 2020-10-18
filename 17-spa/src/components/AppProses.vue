@@ -16,7 +16,8 @@ export default {
 <style>
 .proses {
   border: 1px solid #1a202c;
-  background: #eee;
+  background: #3d5afe;
+  color: #fff;
   position: fixed;
   right: 50px;
   bottom: 50px;

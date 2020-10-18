@@ -1,25 +1,15 @@
 <template>
   <section class="opsi-daftar-kode">
-    <div class="opsi-halaman flex flex-align-center margin-bottom">
-      <app-tombol
-        nama="sebelumnya"
-        label="Sebelumnya"
-        :nonaktif="halaman === 1"
-        @klik="ketikaTombolSebelumnyaDiKlik"
-      />
-      <app-tombol
-        nama="selanjutnya"
-        label="Selanjutnya"
-        class="margin-left"
-        @klik="ketikaTombolSelanjutnyaDiKlik"
-      />
-    </div>
+    <h1
+      class="title"
+      style="text-align: left; margin-left: 0"
+    ><b>Daftar Kode</b></h1>
     <app-formulir-input
       :value="banyakData"
       nama="banyak-data"
       label="Banyak Data"
       tipe="number"
-      class="margin-bottom"
+      class="margin-bottom mt-3"
       @input="$emit('update:banyakData', $event)"
     />
     <!-- <div class="opsi-highlight-menyala margin-bottom">
@@ -49,6 +39,21 @@
       :daftar-pilihan-berbentuk-objek="true"
       @input="$emit('update:urutkan', $event)"
     />
+    <div class="opsi-halaman flex flex-align-center margin-bottom">
+      <app-tombol
+        nama="sebelumnya"
+        label="Sebelumnya"
+        :nonaktif="halaman === 1"
+        @klik="ketikaTombolSebelumnyaDiKlik"
+      />
+      <app-tombol
+        nama="selanjutnya"
+        label="Selanjutnya"
+        class="margin-left"
+        :nonaktif="halaman === 1"
+        @klik="ketikaTombolSelanjutnyaDiKlik"
+      />
+    </div>
   </section>
 </template>
 
@@ -81,7 +86,7 @@ export default {
       default: 1
     }
   },
-  data() {
+  data () {
     return {
       daftarHighlightMenyala: [
         { nilai: 1, teks: 'Menyala' },
@@ -95,7 +100,7 @@ export default {
     }
   },
   computed: {
-    daftarUrutkan() {
+    daftarUrutkan () {
       if (this.urutkanBerdasarkan === 'createdAt') {
         return [
           { nilai: 'ASC', teks: 'Terlama' },
@@ -109,13 +114,13 @@ export default {
     }
   },
   methods: {
-    ketikaTombolSebelumnyaDiKlik() {
+    ketikaTombolSebelumnyaDiKlik () {
       if (this.halaman - 1 < 1) {
         return
       }
       this.$emit('update:halaman', this.halaman - 1)
     },
-    ketikaTombolSelanjutnyaDiKlik() {
+    ketikaTombolSelanjutnyaDiKlik () {
       this.$emit('update:halaman', this.halaman + 1)
     }
   }
